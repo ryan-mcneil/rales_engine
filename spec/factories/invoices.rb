@@ -1,8 +1,7 @@
 FactoryBot.define do
   factory :invoice do
-    merchant { nil }
-    customer { nil }
-    status { "MyString" }
-    string { "MyString" }
+    merchant
+    customer
+    sequence(:status) { |n| "Status#{n}" }
   end
 end
