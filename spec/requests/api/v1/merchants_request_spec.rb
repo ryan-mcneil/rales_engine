@@ -46,13 +46,12 @@ describe 'Merchants API' do
     expect(merchant["name"]).to eq(name)
   end
 
-  xit 'can find a merchant by created_at' do
-    created_at = create(:merchant).created_at
-
+  it 'can find a merchant by created_at' do
+    created_at = create(:merchant, created_at: "2012-03-27T14:54:05.000Z").created_at
     get "/api/v1/merchants/find?created_at=#{created_at}"
 
     merchant = JSON.parse(response.body)
-
+    binding.pry
     expect(response).to be_successful
     expect(merchant["created_at"]).to eq(created_at)
   end
