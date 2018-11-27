@@ -24,5 +24,15 @@ describe 'Merchants API' do
     expect(merchant["id"]).to eq(id)
   end
 
+  it 'can find a merchant by name' do
+    id = create(:merchant).id
+
+    get "/api/v1/merchants/find?name"
+
+    merchant = JSON.parse(resonse.body)
+
+    expect(response).to be_successful
+    expect(merchant["id"]).to eq(id)
+  end
 
 end

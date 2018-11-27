@@ -24,5 +24,11 @@ describe 'Customers API' do
     expect(customer["id"]).to eq(id)
   end
 
+  it 'can get a customer by first_name' do
+    id = create(:customer).id
+
+    # get "/api/v1/customers/find?first_name"
+  end
+
 
 end
