@@ -5,13 +5,12 @@ class Merchant < ApplicationRecord
   has_many :items
 
   def self.most_revenue(x)
-    select('distinct merchants.*, sum(invoice_items.quantity * invoice_items.price) as revenue')
+    select('merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue')
       .joins(:items)
       .joins('join invoice_items on items.id=invoice_items.item_id')
       .joins('join invoices on invoices.id=invoice_items.invoice_id')
-      .group('merchants.id, invoice_items.id')
+      .group('merchants.id')
       .order('revenue DESC')
       .limit(x)
-
   end
 end
