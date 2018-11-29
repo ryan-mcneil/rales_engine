@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Merchant Business Intelligence' do
-  it 'should return top x merchants by max revenue' do
+  it 'should send top x merchants by max revenue' do
     @m_1, @m_2, @m_3 = create_list(:merchant, 3)
     @inv_1 = create(:invoice, status: "shipped", merchant: @m_1)
     @i_1 = create(:item, merchant: @m_1)
@@ -25,5 +25,12 @@ describe 'Merchant Business Intelligence' do
     expect(response).to be_successful
     top_merchants = JSON.parse(response.body)
     expect(top_merchants["data"].count).to eq(2)
+  end
+
+  it 'should send top x merchants by items sold' do
+    get '/api/v1/merchants/most_items?quantity=2'
+
+    expect(response).to be_successful
+    top_merchants = JSON.parse(response.body)
   end
 end
