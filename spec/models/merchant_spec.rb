@@ -38,5 +38,12 @@ RSpec.describe Merchant, type: :model do
       expect(top_merchants[0].id).to eq(@m_1.id)
       expect(top_merchants[1].id).to eq(@m_3.id)
     end
+
+    it 'returns top x merchants ranked by total items sold' do
+      top_merchants = Merchant.most_items(2).to_a
+      expect(top_merchants.size).to eq(2)
+      expect(top_merchants[0].id).to eq(@m_1.id)
+      expect(top_merchants[1].id).to eq(@m_3.id)
+    end
   end
 end
