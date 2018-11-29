@@ -133,7 +133,6 @@ describe 'Customers API' do
     expect(customers["data"][0]["attributes"]["id"]).to eq(customer_1.id)
   end
 
-
   it 'can find a random customer' do
     customer_1, customer_2, customer_3 = create_list(:customer, 3)
 
