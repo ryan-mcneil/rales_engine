@@ -24,11 +24,53 @@ describe 'Customers API' do
     expect(customer["id"]).to eq(id)
   end
 
-  it 'can get a customer by first_name' do
-    id = create(:customer).id
+  it 'can get a customer by id' do
+    customer = create(:customer)
 
-    # get "/api/v1/customers/find?first_name"
+    get "/api/v1/customers/find?id=#{customer.id}"
+
+    customer_data = JSON.parse(response.body)
+    expect(response).to be_successful
+    expect(customer_data["data"]["attributes"]["id"]).to eq(customer.id)
   end
 
+  it 'can get a customer by first_name' do
+    customer = create(:customer)
 
+    get "/api/v1/customers/find?first_name=#{customer.first_name}"
+
+    customer_data = JSON.parse(response.body)
+    expect(response).to be_successful
+    expect(customer_data["data"]["attributes"]["first_name"]).to eq(customer.first_name)
+  end
+
+  it 'can get a customer by last_name' do
+    customer = create(:customer)
+
+    get "/api/v1/customers/find?last_name=#{customer.last_name}"
+
+    customer_data = JSON.parse(response.body)
+    expect(response).to be_successful
+    expect(customer_data["data"]["attributes"]["last_name"]).to eq(customer.last_name)
+  end
+
+  it 'can get a customer by created_at' do
+    customer = create(:customer, created_at: "2012-03-27 14:54:05 UTC")
+
+    get "/api/v1/customers/find?created_at=2012-03-27T14:54:05.000Z"
+
+    customer_data = JSON.parse(response.body)
+    expect(response).to be_successful
+    expect(customer_data["data"]["attributes"]["id"]).to eq(customer.id)
+  end
+
+  it 'can get a customer by updated_at' do
+    customer = create(:customer, updated_at: "2012-03-27 14:54:05 UTC")
+
+    get "/api/v1/customers/find?updated_at=2012-03-27T14:54:05.000Z"
+
+    customer_data = JSON.parse(response.body)
+    expect(response).to be_successful
+    expect(customer_data["data"]["attributes"]["id"]).to eq(customer.id)
+  end
 end
