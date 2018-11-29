@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe 'Items API' do
-  xit 'sends a list of items' do
-    create_list(:items, 3)
+  it 'sends a list of items' do
+    create_list(:item, 3)
 
     get '/api/v1/items'
 
