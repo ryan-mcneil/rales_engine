@@ -123,12 +123,13 @@ describe 'Invoices API' do
 
   it 'can find all invoices by status' do
     invoice_1, invoice_2 = create_list(:invoice, 2)
+    invoice_3 = create(:invoice, status: "shipped")
 
     get "/api/v1/invoices/find_all?status=#{invoice_1.status}"
 
     invoices = JSON.parse(response.body)
     expect(response).to be_successful
-    expect(invoices["data"].count).to eq(1)
+    expect(invoices["data"].count).to eq(2)
     expect(invoices["data"][0]["attributes"]["id"]).to eq(invoice_1.id)
   end
 
