@@ -41,4 +41,16 @@ describe 'nested invoice resources API' do
     items = JSON.parse(response.body)
     expect(items["data"].count).to eq(2)
   end
+
+  it 'sends the customer specific to an invoice' do
+    customer_1, customer_2 = create_list(:customer, 2)
+    invoice = create(:invoice, customer: customer_1)
+
+    get "/api/v1/invoices/#{invoice.id}/customer"
+
+    expect(response).to be_successful
+
+    customer = JSON.parse(response.body)
+    expect(customer["data"]["attributes"]["id"]).to eq(customer_1.id)
+  end
 end
