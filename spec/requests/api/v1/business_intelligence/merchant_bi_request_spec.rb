@@ -67,7 +67,7 @@ describe 'Merchant Business Intelligence' do
       get "/api/v1/merchants/#{@merchant.id}/favorite_customer"
 
       expect(response).to be_successful
-      total_revenue = JSON.parse(response.body)
+      customer = JSON.parse(response.body)
     end
 
   end
