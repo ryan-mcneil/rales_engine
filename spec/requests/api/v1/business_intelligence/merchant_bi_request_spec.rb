@@ -33,4 +33,11 @@ describe 'Merchant Business Intelligence' do
     expect(response).to be_successful
     top_merchants = JSON.parse(response.body)
   end
+
+  it 'should send total_revenue for date x across all merchants' do
+    get '/api/v1/merchants/revenue?date=2018-12-01'
+
+    expect(response).to be_successful
+    top_merchants = JSON.parse(response.body)
+  end
 end
