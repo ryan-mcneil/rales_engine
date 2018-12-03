@@ -10,7 +10,7 @@ RSpec.describe Merchant, type: :model do
     it { should have_many(:invoices) }
   end
 
-  describe 'Class Methods' do
+  describe 'Merchant Class Methods' do
 
     before(:each) do
       @m_1, @m_2, @m_3 = create_list(:merchant, 3)
@@ -52,7 +52,7 @@ RSpec.describe Merchant, type: :model do
     end
   end
 
-  describe 'instance methods' do
+  describe 'single merchant methods' do
 
     before(:each) do
       @merchant = create(:merchant)
