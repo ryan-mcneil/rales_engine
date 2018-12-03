@@ -47,6 +47,15 @@ describe 'Merchant Business Intelligence' do
 
     before(:each) do
       @merchant = create(:merchant)
+      @inv_1 = create(:invoice, merchant: @merchant, created_at: "2018-12-01")
+      @i_1 = create(:item, merchant: @merchant)
+      @t_1 = create(:transaction, invoice: @inv_1)
+      @ii_1 = create(:invoice_item, unit_price: 200, quantity: 3, item: @i_1, invoice: @inv_1)
+      @inv_2 = create(:invoice, merchant: @merchant, created_at: "2018-12-02")
+      @i_2 = create(:item, merchant: @merchant)
+      @t_2 = create(:transaction, invoice: @inv_2)
+      @ii_2 = create(:invoice_item, unit_price: 200, quantity: 3, item: @i_2, invoice: @inv_2)
+
     end
 
     it 'should return total revenue across successful transactions' do
@@ -57,7 +66,7 @@ describe 'Merchant Business Intelligence' do
     end
 
     it 'should return total revenue for specific date' do
-      get "/api/v1/merchants/#{@merchant.id}/revenue?date=x"
+      get "/api/v1/merchants/#{@merchant.id}/revenue?date=2018-12-01"
 
       expect(response).to be_successful
       total_revenue = JSON.parse(response.body)
