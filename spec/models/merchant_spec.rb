@@ -56,33 +56,39 @@ RSpec.describe Merchant, type: :model do
 
     before(:each) do
       @merchant = create(:merchant)
-      @inv_1 = create(:invoice, status: "shipped", merchant: @merchant, created_at: "2018-12-01")
+      @c_1, @c_2, @c_3 = create_list(:customer, 3)
+      @inv_1 = create(:invoice, status: "shipped", customer: @c_1, merchant: @merchant, created_at: "2018-12-01")
       @i_1 = create(:item, merchant: @merchant)
       @t_1 = create(:transaction, invoice: @inv_1)
       @ii_1 = create(:invoice_item, unit_price: 200, quantity: 3, item: @i_1, invoice: @inv_1)
-      @inv_2 = create(:invoice, status: "shipped", merchant: @merchant, created_at: "2018-12-02")
+      @inv_2 = create(:invoice, status: "shipped", customer: @c_1, merchant: @merchant, created_at: "2018-12-02")
       @i_2 = create(:item, merchant: @merchant)
       @t_2 = create(:transaction, invoice: @inv_2)
       @ii_2 = create(:invoice_item, unit_price: 300, quantity: 4, item: @i_2, invoice: @inv_2)
-      @inv_3 = create(:invoice, status: "shipped", merchant: @merchant, created_at: "2018-12-01")
+      @inv_3 = create(:invoice, status: "shipped", customer: @c_2, merchant: @merchant, created_at: "2018-12-01")
       @i_3 = create(:item, merchant: @merchant)
       @t_3 = create(:transaction, invoice: @inv_3)
       @ii_3 = create(:invoice_item, unit_price: 100, quantity: 4, item: @i_3, invoice: @inv_3)
-      @inv_4 = create(:invoice, status: "shipped", merchant: @merchant, created_at: "2018-12-03")
+      @inv_4 = create(:invoice, status: "shipped", customer: @c_3, merchant: @merchant, created_at: "2018-12-03")
       @i_4 = create(:item, merchant: @merchant)
       @t_4 = create(:transaction, invoice: @inv_4, result: "failed")
       @ii_4 = create(:invoice_item, unit_price: 100, quantity: 6, item: @i_4, invoice: @inv_4)
     end
 
     it 'should return total revenue for successful transactions' do
-      total_revenue = @merchant.total_revenue_for_successful_tranactions.revenue
+      total_revenue = Merchant.total_revenue_for_successful_transactions(@merchant.id).revenue
       expect(total_revenue).to eq (2200)
 
     end
 
     it 'should return total revenue for successful transactions for specific date' do
-      total_revenue = @merchant.total_revenue_for_successful_tranactions_by_date("2018-12-01").revenue
-      expect(total_revenue).to eq (2200)
+      total_revenue = Merchant.total_revenue_for_successful_transactions_by_date(@merchant.id, "2018-12-01").revenue
+      expect(total_revenue).to eq (1000)
+    end
+
+    it 'should return customer with most successful transactions' do
+      customer = Merchant.favorite_customer(@merchant.id)
+      expect(customer.id).to eq (@c_1.id)
 
     end
   end

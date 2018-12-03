@@ -66,7 +66,7 @@ describe 'Merchant Business Intelligence' do
     end
 
     it 'should return total revenue for specific date' do
-      get "/api/v1/merchants/#{@merchant.id}/revenue?date=x"
+      get "/api/v1/merchants/#{@merchant.id}/revenue?date=2018-12-01"
 
       expect(response).to be_successful
       total_revenue = JSON.parse(response.body)

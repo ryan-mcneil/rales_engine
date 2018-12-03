@@ -58,12 +58,12 @@ describe 'Items API' do
   it 'can find an item by unit_price' do
     unit_price = create(:item).unit_price
 
-    get "/api/v1/items/find?unit_price=#{unit_price}"
+    get "/api/v1/items/find?unit_price=#{(unit_price/100.00).to_s}"
 
     item = JSON.parse(response.body)
 
     expect(response).to be_successful
-    expect(item["data"]["attributes"]["unit_price"]).to eq(unit_price.to_f/100)
+    expect(item["data"]["attributes"]["unit_price"]).to eq((unit_price/100.00).to_s)
   end
 
   it 'can find an item by merchant_id' do
@@ -134,7 +134,7 @@ describe 'Items API' do
     item_1, item_2 = create_list(:item, 2, unit_price: 300)
     item_3 = create(:item, unit_price: 200)
 
-    get "/api/v1/items/find_all?unit_price=#{item_1.unit_price}"
+    get "/api/v1/items/find_all?unit_price=#{(item_1.unit_price/100.00).to_s}"
 
     items = JSON.parse(response.body)
     expect(response).to be_successful
